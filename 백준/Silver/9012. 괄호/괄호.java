@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static String isValid(String s) {
+    public static String checkAns(String s) {
         int count = 0;
         String answer = "YES";
         for (char c : s.toCharArray()) {
@@ -24,7 +24,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         for (int i = 0; i < n; i++) {
-            System.out.println(isValid(sc.next()));
+            System.out.println(checkAns(sc.next()));
         }
     }
 }
