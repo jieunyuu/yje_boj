@@ -13,8 +13,8 @@ public class Main{
         System.out.print("<");
         
         while(!list.isEmpty()) {
-        	for(int j=0;j<k;j++) {
-        		if(j==k-1) {
+        	for(int j=1;j<=k;j++) {
+        		if(j==k) {
         			int a=list.remove();
         			if(list.size()==0) {
         				System.out.print(a);
