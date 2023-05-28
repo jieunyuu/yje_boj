@@ -34,7 +34,7 @@ public class Main {
 		int maxValue = Collections.max(mp.values());
 		ArrayList<Integer> arrayList = new ArrayList<>();
 		// 가장 많이 나온 값
-		for (Map.Entry<Integer, Integer> m : mp.entrySet()) {
+		for (Map.Entry<Integer, Integer> m : mp.entrySet()) {	//Map 형식의 데이터에서 처리가 필요할 때 Map.Entry를 사용하여 처리
 			if (m.getValue() == maxValue) {
 				arrayList.add(m.getKey());
 			}
