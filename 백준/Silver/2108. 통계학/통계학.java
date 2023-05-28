@@ -1,85 +1,70 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
- 
+import java.util.*;
+
 public class Main {
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		int N = Integer.parseInt(br.readLine());
-		
-		// 입력값의 범위 : -4000 ~ 4000
-		int[] arr = new int[8001];
-		
-		/*
-		 *  sum = 총 합계 
-		 *  max = 최댓값
-		 *  min = 최솟값 
-		 *  median = 중앙값
-		 *  mode = 최빈값 
-		 */
-		int sum = 0;
-		int max = Integer.MIN_VALUE;
-		int min = Integer.MAX_VALUE;
-		// median 과 mode 는 -4000~4000 을 제외한 수로 초기화하면 된다.
-		int median = 10000;
-		int mode = 10000;
-		
-		for(int i = 0; i < N; i++) {
-			int value = Integer.parseInt(br.readLine());
-			sum += value;
-			arr[value + 4000]++;
-		
-			if(max < value) {
-				max = value;
-			}
-			if(min > value) {
-				min = value;
-			}
+
+	public static int N;
+	public static int[] array;
+
+	public static int getAverage() {
+		// 배열을 다 합해주는 stream
+		double sum = Arrays.stream(array).sum();
+
+		double avg = (double) sum / N;
+		if (avg < 0) {
+			// 반올림하는 Math.round함수
+			return (int) Math.round(Math.abs(avg) * -1);
+		} else {
+			return (int) Math.round(avg);
 		}
-		
-		
-		// 순회 
-		int count = 0;	// 중앙값 빈도 누적 수 
-		int mode_max = 0; 	// 최빈값의 최댓값  
-		
-		// 이전의 동일한 최빈값이 1번만 등장했을경우 true, 아닐경우 false
-		boolean flag = false;	 
-		
-		for(int i = min + 4000; i <= max + 4000; i++) {
-			
-			if(arr[i] > 0) {
-				
-				/*
-				 * <중앙값 찾기>
-				 * 누적횟수가 전체 전체 길이의 절반에 못 미친다면 
-				 */
-				if(count < (N + 1) / 2) {
-					count += arr[i];	// i값의 빈도수를 count 에 누적
-					median = i - 4000;
-				}
-				
-				/*
-				 * <최빈값 찾기>
-				 * 이전 최빈값보다 현재 값의 빈도수가 더 높을 경우 
-				 */
-				if(mode_max < arr[i]) {
-					mode_max = arr[i];
-					mode = i - 4000;
-					flag = true;	// 첫 등장이므로 true 로 변경 
-				}
-				// 이전 최빈값 최댓값과 동일한 경우면서 한 번만 중복되는 경우 
-				else if(mode_max == arr[i] && flag == true) {
-					mode = i - 4000;
-					flag = false;					
-				}
-			}
-		}
-		
-		System.out.println((int)Math.round((double)sum / N));	// 산술평균 
-		System.out.println(median);	// 중앙값 
-		System.out.println(mode);	// 최빈값 
-		System.out.println(max - min);	// 범위 
 	}
- 
+
+	public static int countFreq() {
+		Map<Integer, Integer> mp = new HashMap<>();
+
+		if (N == 1) {
+			return array[0];
+		}
+		for (int i = 0; i < N; i++) {
+			if (mp.containsKey(array[i])) {
+				mp.put(array[i], mp.get(array[i]) + 1);
+			} else {
+				mp.put(array[i], 1);
+			}
+		}
+		int maxValue = Collections.max(mp.values());
+		ArrayList<Integer> arrayList = new ArrayList<>();
+		// 가장 많이 나온 값
+		for (Map.Entry<Integer, Integer> m : mp.entrySet()) {
+			if (m.getValue() == maxValue) {
+				arrayList.add(m.getKey());
+			}
+		}
+		Collections.sort(arrayList);
+		// 가장 많이 나온 값이 여러개일 경우 두번째로 작은 값
+		if (arrayList.size() > 1)
+			return arrayList.get(1);
+		else // 가장 많이 나온 값이 하나면
+			return arrayList.get(0);
+	}
+
+	public static void main(String[] args) {
+
+		Scanner scan = new Scanner(System.in);
+		N = scan.nextInt();
+
+		array = new int[N];
+		for (int i = 0; i < N; i++) {
+			array[i] = scan.nextInt();
+		}
+		// 산술평균
+		System.out.println(getAverage());
+		Arrays.sort(array);
+		// 중앙값
+		System.out.println(array[N / 2]);
+		// 최빈값
+		System.out.println(countFreq());
+		// 범위
+		System.out.println(array[N - 1] - array[0]);
+		scan.close();
+	}
 }
