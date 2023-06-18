@@ -13,8 +13,7 @@ class Main {
 
         // 열린 꺽새와 닫힌 꺽새를 판별하기 위한 flag
         boolean flag = false;
-
-        // 후입선출 기능을 이용하기 위한 자료구조 Stack
+        
         Stack < Character > stack = new Stack < > ();
 
         // 문자열 S의 길이만큼 반복문 수행
